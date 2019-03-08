@@ -17,6 +17,23 @@ class Game {
   }
 
   registerEvents() {
+    document.addEventListener('keydown', event => {
+        const eventLetter = event.key.toUpperCase().charCodeAt(0);
+        const screenLetter = this.currentSymbol.innerText.toUpperCase().charCodeAt(0);
+
+        if (screenLetter === eventLetter) {
+            this.success();
+        } else {
+            this.fail();
+        }
+
+    });
+
+
+
+
+
+
     /*
       TODO:
       Написать обработчик события, который откликается
