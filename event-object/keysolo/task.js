@@ -18,9 +18,8 @@ class Game {
 
   registerEvents() {
     document.addEventListener('keydown', event => {
-        const eventLetter = event.key.toUpperCase().charCodeAt(0);
-        const screenLetter = this.currentSymbol.innerText.toUpperCase().charCodeAt(0);
-
+        const eventLetter = event.key.toLowerCase().charCodeAt(0);
+        const screenLetter = this.currentSymbol.textContent.toLowerCase().charCodeAt(0);
         if (screenLetter === eventLetter) {
             this.success();
         } else {
@@ -29,18 +28,6 @@ class Game {
 
     });
 
-
-
-
-
-
-    /*
-      TODO:
-      Написать обработчик события, который откликается
-      на каждый введённый символ.
-      В случае правильного ввода слова вызываем this.success()
-      При неправильном вводе символа - this.fail();
-     */
   }
 
   success() {
