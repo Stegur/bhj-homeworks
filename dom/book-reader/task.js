@@ -17,5 +17,12 @@ function change(event) {
         reader.classList.remove('book_fs-small');
         reader.classList.remove('book_fs-big');
     }
+
+    for (let letter of document.querySelectorAll('.font-size')) {
+        letter.classList.remove('font-size_active');
+    }
+    event.target.classList.add('font-size_active');
+    
+
 }
 
