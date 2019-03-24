@@ -2,8 +2,6 @@ const btn = document.getElementById('tasks__add');
 const taskList = document.getElementById('tasks__list');
 
 btn.addEventListener('click', addTask);
-// remove.addEventListener('click', removeTask);
-
 
 function addTask(event) {
 
@@ -20,11 +18,13 @@ function addTask(event) {
 
     taskList.insertAdjacentHTML('beforeEnd', task);
 
-    localStorage[text.value] = task;
+    console.log(typeof localStorage['tasks'])
+    localStorage.tasks.push(text.value);
 
     text.value = '';
 
     canBeDeleted();
+    console.log(localStorage)
 }
 
 function canBeDeleted() {
@@ -42,20 +42,37 @@ function removeTask(event) {
     event.target.closest('.task').remove();
 
     let key = event.target.closest('.task').querySelector('.task__title').textContent.trim();
-    localStorage.removeItem(key);
+    localStorage.tasks.removeItem(key);
 }
 
 function init() {
 
-    if (localStorage.length !== 0) {
 
-        for (let key of Object.keys(localStorage)) {
-            taskList.insertAdjacentHTML('beforeEnd', localStorage[key]);
-        }
+    const tasks = [1, true, 'str'];
+    localStorage.setItem('tasks', tasks);
+    console.log(typeof localStorage.tasks) /* почему строка? */
+    console.log(localStorage.tasks)
 
-        canBeDeleted();
-    }
+
+
+    // if (localStorage['tasks'].length !== 0) {
+
+    //     for (let item of localStorage.tasks) {
+
+
+    //         const task = `<div class="task">
+    //                     <div class="task__title">
+    //                     ${item}
+    //                     </div>
+    //                     <a href="#" class="task__remove">&times;</a>
+    //                   </div>`;
+
+    //         taskList.insertAdjacentHTML('beforeEnd', task);
+    //     }
+
+    //     canBeDeleted();
+    // }
 
 }
-
+localStorage.clear()
 init();
