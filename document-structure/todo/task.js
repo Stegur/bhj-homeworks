@@ -8,6 +8,7 @@ function addTask(event) {
     event.preventDefault();
 
     let text = document.getElementById('task__input');
+    if (text.value === '') return;
 
     const task = `<div class="task">
                     <div class="task__title">
@@ -18,13 +19,13 @@ function addTask(event) {
 
     taskList.insertAdjacentHTML('beforeEnd', task);
 
-    console.log(typeof localStorage['tasks'])
-    localStorage.tasks.push(text.value);
+    localTasks = JSON.parse(localStorage.tasks);
+    localTasks.push(text.value);
+    localStorage.tasks = JSON.stringify(localTasks);
 
     text.value = '';
 
     canBeDeleted();
-    console.log(localStorage)
 }
 
 function canBeDeleted() {
@@ -42,37 +43,38 @@ function removeTask(event) {
     event.target.closest('.task').remove();
 
     let key = event.target.closest('.task').querySelector('.task__title').textContent.trim();
-    localStorage.tasks.removeItem(key);
+
+    for (let item of JSON.parse(localStorage.tasks)) {
+        if (key === item) {
+
+            localTasks = JSON.parse(localStorage.tasks);
+            localTasks.splice(localTasks.indexOf(key), 1);
+            localStorage.tasks = JSON.stringify(localTasks);
+        }
+    }
+
 }
 
 function init() {
 
+    if (!localStorage.tasks) {
+        localStorage.setItem('tasks', '[]');
+        return;
+    } else {
 
-    const tasks = [1, true, 'str'];
-    localStorage.setItem('tasks', tasks);
-    console.log(typeof localStorage.tasks) /* почему строка? */
-    console.log(localStorage.tasks)
+        for (let title of JSON.parse(localStorage.tasks)) {
 
+            const task = `<div class="task">
+                                <div class="task__title">
+                                ${title}
+                                </div>
+                                <a href="#" class="task__remove">&times;</a>
+                              </div>`;
 
-
-    // if (localStorage['tasks'].length !== 0) {
-
-    //     for (let item of localStorage.tasks) {
-
-
-    //         const task = `<div class="task">
-    //                     <div class="task__title">
-    //                     ${item}
-    //                     </div>
-    //                     <a href="#" class="task__remove">&times;</a>
-    //                   </div>`;
-
-    //         taskList.insertAdjacentHTML('beforeEnd', task);
-    //     }
-
-    //     canBeDeleted();
-    // }
-
+            taskList.insertAdjacentHTML('beforeEnd', task);
+        }
+        canBeDeleted();
+    }
 }
-localStorage.clear()
+// localStorage.clear()
 init();
