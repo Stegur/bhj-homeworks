@@ -1,11 +1,11 @@
 const links = document.querySelectorAll('.has-tooltip');
+const hint = document.querySelector('.tooltip');
 
 for (let link of links) {
     link.addEventListener('click', showHint);
-
-    const hint = `<div class="tooltip">${link.title}</div>`;
-    link.insertAdjacentHTML('afterEnd', hint);
 }
+
+hint.addEventListener('click', () => hint.classList.remove('tooltip_active'));
 
 function showHint(event) {
 
@@ -17,6 +17,8 @@ function showHint(event) {
         tooltip.classList.remove('tooltip_active');
     }
 
-    event.target.nextSibling.classList.add('tooltip_active');
-    
+    hint.classList.add('tooltip_active');
+    hint.innerText = event.target.title;
+    hint.style.top = event.target.getBoundingClientRect().top + 20 + 'px';
+    hint.style.left = event.target.getBoundingClientRect().left + 'px';
 }
