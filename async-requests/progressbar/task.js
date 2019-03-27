@@ -13,8 +13,7 @@ function check(event) {
     xhr.open('POST', 'https://netology-slow-rest.herokuapp.com/upload.php');
     xhr.onprogress = function (event) {
 
-        const value = event.loaded / 1024 / 1024 / 100;
-        progress.value = value.toFixed(2);
+        progress.value = event.loaded / 1000000;
     }
     xhr.send(formData);
 
